@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="keyboard.css" />
+	<link rel="stylesheet" href="composer.css" />
+	<script src="jquery-2.1.3.min.js"></script>
+	<script src="wavesurfer.min.js"></script>
+	<script src="wavesurfer.regions.js"></script>
+	<script src="dragDrop.js"></script>
+	<script src="composer.js"></script>
+</head>
+<body>
+	<div id="content">
+		<div id="songWaveform">
+		</div>
+
+		<div id="dragDrop">
+			<input id="dragDropInput" type="file" title="Upload a file" />
+			<div id="songLoading">Loading file......</div>
+		</div>
+		
+		<div id="controls">
+			<div id="songInfo">
+				<button id="playPause" disabled>Play/Pause</button>
+				<input type="range" name="volume" id="volume" min="0" max="100" />
+				<label for="songTitle">Title</label>
+				<input type="text" name="songTitle" id="songTitle" />
+				<label for="songArtist">Artist</label>
+				<input type="text" name="songArtist" id="songArtist" />
+				<button type="button" id="songSave">Save</button>
+			</div> <!-- /songInfo -->
+			
+			<div id="chordInfo">
+				<button type="button" id="prevChord">Prev Chord</button>
+				<button type="button" id="nextChord">Next Chord</button>
+				<!--
+				<label for="chordName">Chord Name</label>
+				<input type="text" name="chordName" id="chordName" />
+				<label for="chordStart">Chord Start Time</label>
+				<input type="number" step="0.01" name="chordStart" id="chordStart" min="0.0" disabled />
+				<label for="chordEnd">Chord End Time</label>
+				<input type="number" step="0.01" name="chordEnd" id="chordEnd" min="0.0" disabled />
+				-->
+				<button type="button" id="chordSnapLeft">Snap Chord Left</button>
+				<button type="button" id="chordSnapRight">Snap Chord Right</button>
+				<button type="button" id="chordDelete">Delete Chord</button>
+				
+				
+				
+				<div id="chordShortcuts">
+					<!--
+						-these should provide a shorthand means of applying notes to a selected chord-region.
+						-select a note and then a chord type (one of each only, hence the radio toggle), then apply
+					-->
+					<div id="chordShortcutsNote">
+						<select id="chordShortcutsNoteSelect">
+							<option value="Ab">Ab</option>
+							<option value="A">A</option>
+							<option value="Bb">Bb</option>
+							<option value="B">B</option>
+							<option value="C">C</option>
+							<option value="Db">Db</option>
+							<option value="D">D</option>
+							<option value="Eb">Eb</option>
+							<option value="E">E</option>
+							<option value="F">F</option>
+							<option value="Gb">Gb</option>
+							<option value="G">G</option>
+						</select>
+					</div>
+					<div id="chordShortcutsChord">
+						<select id="chordShortcutsChordSelect">
+							<option value="major">major</option>
+							<option value="minor">minor</option>
+							<option value="7">7</option>
+							<option value="maj7">maj7</option>
+							<option value="min7">min7</option>
+							<option value="dim">dim</option>
+							<option value="aug">aug</option>
+							<option value="sus4">sus4</option>
+							<option value="add2">add2</option>
+						</select>
+					</div>
+					<button type="button" id="applyChord">Apply Chord</button>
+				</div> <!-- /chordShortcuts -->
+				
+			</div> <!-- /chordInfo -->
+		</div> <!-- /controls -->
+	</div> <!-- /content -->
+	
+	
+	<div id="keyboardFrame">
+		<div id="p-wrapper">
+			<ul id="piano">
+				<li><div class="anchor"></div><span></span></li>
+				<li>
+					<div class="anchor pianoNote" id="pianoNoteF"><div class="noteLetter">F</div></div>
+				</li>
+				<li>
+					<div class="anchor pianoNote" id="pianoNoteG"><div class="noteLetter">G</div></div>
+					<span class="pianoNote" id="pianoNoteGb"><div class="noteLetterFlat">Gb</div></span>
+				</li>
+				<li>
+					<div class="anchor pianoNote" id="pianoNoteA"><div class="noteLetter">A</div></div>
+					<span class="pianoNote" id="pianoNoteAb"><div class="noteLetterFlat">Ab</div></span>
+				</li>
+				<li>
+					<div class="anchor pianoNote" id="pianoNoteB"><div class="noteLetter">B</div></div>
+					<span class="pianoNote" id="pianoNoteBb"><div class="noteLetterFlat">Bb</div></span>
+				</li>
+				<li>
+					<div class="anchor pianoNote" id="pianoNoteC"><div class="noteLetter">C</div></div>
+				</li>
+				<li>
+					<div class="anchor pianoNote" id="pianoNoteD"><div class="noteLetter">D</div></div>
+					<span class="pianoNote" id="pianoNoteDb"><div class="noteLetterFlat">Db</div></span>
+				</li>
+				<li>
+					<div class="anchor pianoNote" id="pianoNoteE"><div class="noteLetter">E</div></div>
+					<span class="pianoNote" id="pianoNoteEb"><div class="noteLetterFlat">Eb</div></span>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div id="chordNotes">
+
+		<ul>
+			<li class="noteIndicator" id="noteF"></li>
+			<li class="noteIndicator" id="noteGb"></li>
+			<li class="noteIndicator" id="noteG"></li>
+			<li class="noteIndicator" id="noteAb"></li>
+			<li class="noteIndicator" id="noteA"></li>
+			<li class="noteIndicator" id="noteBb"></li>
+			<li class="noteIndicator" id="noteB"></li>
+			<li class="noteIndicator" id="noteC"></li>
+			<li class="noteIndicator" id="noteDb"></li>
+			<li class="noteIndicator" id="noteD"></li>
+			<li class="noteIndicator" id="noteEb"></li>
+			<li class="noteIndicator" id="noteE"></li>
+		</ul>
+
+	</div>
+	
+</body>
+</html>
